@@ -6,26 +6,46 @@
     <title>Nezzy Cake Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            text-align: center;
-            padding: 20px;
+        body, html {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            overflow: hidden;
         }
-        .hidden {
-            display: none;
-        }
-        h1 {
-            color: #ff69b4;
+        /* Video to'liq ekranni egallaydi */
+        #video-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
         video {
             width: 100%;
-            max-width: 400px;
-            border-radius: 12px;
-            outline: none;
-            margin-top: 10px;
+            height: 100%;
+            object-fit: cover;
+        }
+        /* Asosiy menyu (video tugagach chiqadi) */
+        #main-section {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #121212;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #ff69b4;
+            margin-top: 50px;
         }
         .btn {
             background-color: #ff69b4;
@@ -35,50 +55,22 @@
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Video / Reklama qismi -->
+    <!-- Full-screen video qismi (O'tkazib yuborish tugmasisiz) -->
     <div id="video-section">
-        <h2>📢 Nezzy_cake Yangiliklari</h2>
-        <video id="promoVideo" controls playsinline autoplay>
-            <source src="Shaxzod.MOV" type="video/mp4">
+        <video id="promoVideo" autoplay playsinline>
+            <source src="https://cdn.storagetobox.com/b17ffa48-8878-4670-a972-e1d20d60e23b?expires=1794761560&filename=Shaxzod.MOV&id=zFJzHs6To&sig=cf1c4ee78762c6b60e1da737ce70ca227f3f638e6e4dac5781bc8afcf33d3547" type="video/quicktime">
             Sizning brauzeringiz videoni qo'llab-quvvatlamaydi.
         </video>
-        <br>
-        <button class="btn" onclick="skipVideo()">O'tkazib yuborish ➔</button>
     </div>
 
-    <!-- Asosiy menyu (video tugagach yoki o'tkazib yuborilganda chiqadi) -->
-    <div id="main-section" class="hidden">
+    <!-- Asosiy menyu (video oxirigacha ko'rilgandan so'ng ochiladi) -->
+    <div id="main-section">
         <h1>🍰 Nezzy_cake</h1>
         <p>Shirinliklar olamiga xush kelibsiz!</p>
-        <button class="btn" onclick="sendMessage()">Buyurtma berish</button>
-    </div>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-
-        let video = document.getElementById("promoVideo");
         
-        // Video tugaganda avtomatik asosiy menyuga o'tish
-        video.onended = function() {
-            skipVideo();
-        };
-
-        function skipVideo() {
-            document.getElementById("video-section").style.display = "none";
-            document.getElementById("main-section").style.display = "block";
-        }
-
-        function sendMessage() {
-            tg.sendData("Salom, men mini app orqali buyurtma bermoqchiman!");
-        }
-    </script>
-
-</body>
-</html>
