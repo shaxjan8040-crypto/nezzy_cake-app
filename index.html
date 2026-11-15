@@ -14,8 +14,18 @@
             padding: 20px;
             margin: 0;
         }
+        .hidden {
+            display: none;
+        }
         h1 {
             color: #ff69b4;
+        }
+        video {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            outline: none;
+            margin-top: 10px;
         }
         .btn {
             background-color: #ff69b4;
@@ -25,20 +35,45 @@
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <h1>🍰 Nezzy_cake</h1>
-    <p>Shirinliklar olamiga xush kelibsiz!</p>
-    
-    <button class="btn" onclick="sendMessage()">Buyurtma berish</button>
+    <!-- Video / Reklama qismi -->
+    <div id="video-section">
+        <h2>📢 Nezzy_cake Yangiliklari</h2>
+        <video id="promoVideo" controls playsinline autoplay>
+            <source src="Shaxzod.MOV" type="video/mp4">
+            Sizning brauzeringiz videoni qo'llab-quvvatlamaydi.
+        </video>
+        <br>
+        <button class="btn" onclick="skipVideo()">O'tkazib yuborish ➔</button>
+    </div>
+
+    <!-- Asosiy menyu (video tugagach yoki o'tkazib yuborilganda chiqadi) -->
+    <div id="main-section" class="hidden">
+        <h1>🍰 Nezzy_cake</h1>
+        <p>Shirinliklar olamiga xush kelibsiz!</p>
+        <button class="btn" onclick="sendMessage()">Buyurtma berish</button>
+    </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
+
+        let video = document.getElementById("promoVideo");
+        
+        // Video tugaganda avtomatik asosiy menyuga o'tish
+        video.onended = function() {
+            skipVideo();
+        };
+
+        function skipVideo() {
+            document.getElementById("video-section").style.display = "none";
+            document.getElementById("main-section").style.display = "block";
+        }
 
         function sendMessage() {
             tg.sendData("Salom, men mini app orqali buyurtma bermoqchiman!");
