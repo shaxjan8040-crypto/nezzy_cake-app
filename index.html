@@ -61,7 +61,7 @@
 </head>
 <body>
 
-    <!-- Full-screen video qismi (O'tkazib yuborish tugmasisiz) -->
+    <!-- Full-screen video qismi -->
     <div id="video-section">
         <video id="promoVideo" autoplay playsinline>
             <source src="https://cdn.storagetobox.com/b17ffa48-8878-4670-a972-e1d20d60e23b?expires=1794761560&filename=Shaxzod.MOV&id=zFJzHs6To&sig=cf1c4ee78762c6b60e1da737ce70ca227f3f638e6e4dac5781bc8afcf33d3547" type="video/quicktime">
@@ -73,4 +73,25 @@
     <div id="main-section">
         <h1>🍰 Nezzy_cake</h1>
         <p>Shirinliklar olamiga xush kelibsiz!</p>
+        <button class="btn" onclick="sendMessage()">Buyurtma berish</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let video = document.getElementById("promoVideo");
         
+        // Video to'liq tugaganda ishlaydigan funksiya
+        video.onended = function() {
+            document.getElementById("video-section").style.display = "none";
+            document.getElementById("main-section").style.display = "block";
+        };
+
+        function sendMessage() {
+            tg.sendData("Salom, men mini app orqali buyurtma bermoqchiman!");
+        }
+    </script>
+
+</body>
+</html>
