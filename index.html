@@ -16,6 +16,122 @@
             color: #ffffff;
             overflow: hidden;
         }
+        /* Video ekranni to'liq egallaydi */
         #video-section {
-            position
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* Videoni boshlash tugmasi */
+        .play-btn {
+            position: relative;
+            z-index: 10000;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+        /* Asosiy menyu (video tugagach chiqadi va ichida tugmalari bor) */
+        #main-section {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background-color: #121212;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        h1 {
+            color: #ff69b4;
+            margin-top: 40px;
+        }
+        .menu-btn {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 80%;
+            max-width: 300px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
 
+    <!-- Video va boshlash tugmasi qismi -->
+    <div id="video-section">
+        <video id="promoVideo" playsinline>
+            <!-- BURAGAN JOYINGIZ: Videongizning to'g'ri havolasini yozing -->
+            <source src="Shaxzod.mp4" type="video/mp4">
+            Sizning brauzeringiz videoni qo'llab-quvvatlamaydi.
+        </video>
+        <button class="play-btn" onclick="startVideo()">▶️ Videoni ko'rish</button>
+    </div>
+
+    <!-- Asosiy menyu qismi (Ichida kerakli tugmalari bilan) -->
+    <div id="main-section">
+        <h1>🍰 Nezzy_cake</h1>
+        <p>Shirinliklar olamiga xush kelibsiz! O'zingizga yoqqan shirinlikni tanlang:</p>
+        
+        <button class="menu-btn" onclick="sendOrder('Tortlar 🎂')">🎂 Tortlar va Dizaynlar</button>
+        <button class="menu-btn" onclick="sendOrder('Bento tortlar 🍰')">🍰 Bento tortlar</button>
+        <button class="menu-btn" onclick="sendOrder('Shirinliklar 🧁')">🧁 Trifle va Shirinliklar</button>
+        <button class="menu-btn" onclick="sendOrder('Operator bilan bog\'lanish 📞')">📞 Operator bilan bog'lanish</button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let video = document.getElementById("promoVideo");
+        let playBtn = document.querySelector(".play-btn");
+
+        function startVideo() {
+            playBtn.style.display = "none"; // Tugmani yashirish
+            video.play().catch(error => {
+                console.log("Video o'ynashda xatolik:", error);
+            }); // Videoni boshlash
+        }
+
+        // Video to'liq tugaganda avtomatik asosiy menyuni ochish
+        video.onended = function() {
+            document.getElementById("video-section").style.display = "none";
+            document.getElementById("main-section").style.display = "block";
+        };
+
+        // Tugmalar bosilganda botga ma'lumot yuborish
+        function sendOrder(category) {
+            tg.sendData("Tanlangan bo'lim: " + category);
+        }
+    </script>
+
+</body>
+</html>
