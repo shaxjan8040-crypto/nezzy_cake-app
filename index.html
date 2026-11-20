@@ -16,7 +16,7 @@
             --text-dark: #2d2d2d;
             --text-muted: #6e6e6e;
             --shadow: 0 8px 25px rgba(255, 107, 157, 0.15);
-            --glass: rgba(255, 255, 255, 0.88);
+            --glass: rgba(255, 255, 255, 0.9);
         }
 
         * {
@@ -45,20 +45,20 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
-            background: radial-gradient(circle at top right, #fff0f5, #ffffff 60%, #fffaf0 100%);
+            background: radial-gradient(circle at top right, #fff0f5, #ffffff 55%, #fffdf5 100%);
         }
 
         .floating-item {
             position: absolute;
-            opacity: 0.25;
+            opacity: 0.22;
             animation: floatUp 15s infinite linear;
             font-size: 24px;
         }
 
         @keyframes floatUp {
             0% { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-            20% { opacity: 0.3; }
-            80% { opacity: 0.3; }
+            20% { opacity: 0.28; }
+            80% { opacity: 0.28; }
             100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
         }
 
@@ -72,7 +72,7 @@
 
         .lang-btn {
             background: var(--glass);
-            border: 1px solid rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.45);
             backdrop-filter: blur(10px);
             padding: 6px 12px;
             border-radius: 20px;
@@ -96,7 +96,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             overflow: hidden;
             border: 1px solid #f3f3f3;
-            min-width: 120px;
+            min-width: 125px;
             animation: fadeInDown 0.25s ease;
         }
 
@@ -109,9 +109,6 @@
             font-size: 13px;
             cursor: pointer;
             transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .lang-option:hover {
@@ -236,7 +233,7 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
 
         .btn-primary:active {
@@ -304,7 +301,7 @@
             display: none;
         }
 
-        /* Main App Container (Post-Registration) */
+        /* Main App Container */
         #app-container {
             display: none;
             flex-direction: column;
@@ -321,7 +318,7 @@
         /* Ornamental Background Brand Logo */
         .brand-watermark {
             position: fixed;
-            top: 42%;
+            top: 38%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
@@ -338,20 +335,19 @@
 
         .ornament-top, .ornament-bottom {
             color: var(--primary-gold);
-            font-size: 22px;
+            font-size: 20px;
             letter-spacing: 6px;
-            opacity: 0.55;
+            opacity: 0.6;
         }
 
         .brand-script {
             font-family: 'Great Vibes', cursive;
-            font-size: 56px;
+            font-size: 54px;
             background: linear-gradient(135deg, #d4af37, #ff6b9d, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
             line-height: 1.1;
-            padding: 5px 0;
+            padding: 4px 0;
         }
 
         /* Tab Views */
@@ -372,8 +368,8 @@
         .top-socials-wrapper {
             display: flex;
             justify-content: flex-end;
-            padding-right: 78px; /* Space for lang button */
-            margin-bottom: 12px;
+            padding-right: 78px;
+            margin-bottom: 10px;
         }
 
         .social-mini-grid {
@@ -384,8 +380,8 @@
         }
 
         .social-chip {
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(255, 107, 157, 0.25);
+            background: rgba(255, 255, 255, 0.94);
+            border: 1px solid rgba(255, 107, 157, 0.28);
             padding: 5px 9px;
             border-radius: 12px;
             font-size: 11px;
@@ -396,17 +392,55 @@
             align-items: center;
             gap: 4px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-            transition: transform 0.2s;
         }
 
-        .social-chip:active {
-            transform: scale(0.95);
+        /* Rotating Ribbon Strip in Empty Space of Glavni Menyu */
+        .ribbon-section {
+            margin: 82px 0 14px;
+            width: 100%;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(6px);
+            border-radius: 18px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 10px 0;
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.08);
         }
 
-        /* Spacer so watermark shines in the middle */
-        .menu-spacer {
-            flex: 1;
-            min-height: 170px;
+        .ribbon-track {
+            display: flex;
+            width: max-content;
+            animation: scrollRibbon 38s linear infinite;
+            gap: 10px;
+            padding-left: 10px;
+        }
+
+        .ribbon-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollRibbon {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ribbon-item {
+            width: 82px;
+            height: 82px;
+            border-radius: 14px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            background: #fff5f8;
+        }
+
+        .ribbon-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         /* Bottom Action Buttons in Main Menu */
@@ -418,7 +452,7 @@
         }
 
         .menu-btn-card {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(8px);
             border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 16px;
@@ -478,7 +512,7 @@
 
         .chat-messages {
             flex: 1;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(8px);
             border-radius: 20px;
             padding: 14px;
@@ -496,7 +530,6 @@
             border-radius: 16px;
             font-size: 13px;
             line-height: 1.4;
-            animation: fadeIn 0.25s ease;
         }
 
         .msg-other {
@@ -544,12 +577,11 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
         }
 
         /* Profile View */
         .profile-card {
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             padding: 24px 20px;
@@ -570,7 +602,6 @@
             justify-content: center;
             margin: -55px auto 12px;
             border: 4px solid #ffffff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .profile-name {
@@ -620,14 +651,14 @@
             color: var(--text-dark);
         }
 
-        /* Bottom Navigation Bar (Left: Glavni menyu, Center: Chat, Right: Profil) */
+        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 12px;
             left: 15px;
             right: 15px;
             height: 62px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(15px);
             border-radius: 22px;
             display: flex;
@@ -649,7 +680,6 @@
             font-size: 11.5px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
             height: 100%;
         }
 
@@ -660,10 +690,6 @@
         .nav-item.active {
             color: var(--primary-pink);
             font-weight: 600;
-        }
-
-        .nav-item.center-chat {
-            position: relative;
         }
 
         .nav-item.center-chat .chat-circle {
@@ -680,12 +706,12 @@
             border: 3px solid #ffffff;
         }
 
-        /* Modal for Sub-menus (Catalog, Prices, Game, etc.) */
+        /* Modal Sheet */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(4px);
             z-index: 2000;
             justify-content: center;
@@ -703,8 +729,8 @@
             max-width: 480px;
             border-top-left-radius: 28px;
             border-top-right-radius: 28px;
-            padding: 24px 20px 30px;
-            max-height: 85vh;
+            padding: 22px 18px 30px;
+            max-height: 88vh;
             overflow-y: auto;
             position: relative;
             animation: slideUp 0.3s ease;
@@ -717,23 +743,129 @@
 
         .modal-close {
             position: absolute;
-            top: 18px;
-            right: 18px;
-            width: 32px;
-            height: 32px;
+            top: 16px;
+            right: 16px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             background: #f5f5f5;
             border: none;
             font-size: 16px;
             cursor: pointer;
+            z-index: 5;
         }
 
         .modal-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             color: var(--primary-pink);
             margin-bottom: 14px;
-            padding-right: 35px;
+            padding-right: 38px;
+        }
+
+        /* Single Cake Slider in Catalog */
+        .single-slider-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .single-img-frame {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-height: 360px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #fff9fb;
+            border: 1.5px solid #ffe0eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .single-img-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slider-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .slider-nav-btn {
+            flex: 1;
+            padding: 11px 14px;
+            border-radius: 14px;
+            border: 1.5px solid var(--primary-pink);
+            background: #ffffff;
+            color: var(--primary-pink);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .slider-nav-btn:active {
+            background: #fff0f5;
+        }
+
+        .slider-counter {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-dark);
+            padding: 0 8px;
+        }
+
+        /* Price Text Box */
+        .price-pre-box {
+            background: #fff9fb;
+            border: 1px solid #ffd6e5;
+            border-radius: 18px;
+            padding: 15px;
+            font-size: 13.5px;
+            line-height: 1.65;
+            white-space: pre-line;
+            color: var(--text-dark);
+        }
+
+        /* Order Photo Upload Box */
+        .photo-upload-box {
+            width: 100%;
+            height: 150px;
+            border: 2px dashed var(--primary-pink);
+            border-radius: 18px;
+            background: #fff9fb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-upload-box i {
+            font-size: 32px;
+            color: var(--primary-pink);
+            margin-bottom: 6px;
+        }
+
+        .photo-upload-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
         }
 
         .game-rule-card {
@@ -759,16 +891,21 @@
             font-weight: 600;
             font-size: 14px;
             margin-top: 12px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
-        .catalog-item {
+        .contact-link-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: #fafafa;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13.5px;
+            font-weight: 500;
+            border: 1px solid #f0f0f0;
         }
     </style>
 </head>
@@ -794,7 +931,7 @@
     <div id="welcome-screen" class="screen active">
         <div class="welcome-card">
             <div class="welcome-cake-icon">🎂</div>
-            <div class="welcome-text" id="welcome-content">
+            <div class="welcome-text">
                 <p><strong>Assalomu alaykum! Nezzy Cake olamiga xush kelibsiz! ❤️</strong></p>
                 <p>Jizzax shahrida ko‘pchilikning mehrini qozongan Nezzy Cake loyihasida sizni ko‘rib turganimizdan mamnunmiz! 🥰</p>
                 <p>Bu yerda sizni:</p>
@@ -840,7 +977,6 @@
                 <label data-i18n="labelAddress">Manzilingiz :</label>
                 <select id="reg-address" class="form-control">
                     <option value="">-- Tumanni tanlang --</option>
-                    <option value="Jizzax shaxar">Jizzax shaxar</option>
                     <option value="Arnasoy tumani">Arnasoy tumani</option>
                     <option value="Baxmal tumani">Baxmal tumani</option>
                     <option value="Do‘stlik tumani">Do‘stlik tumani</option>
@@ -853,6 +989,7 @@
                     <option value="Zarbdor tumani">Zarbdor tumani</option>
                     <option value="Zomin tumani">Zomin tumani</option>
                     <option value="Yangiobod tumani">Yangiobod tumani</option>
+                    <option value="Jizzax shaxar">Jizzax shaxar</option>
                 </select>
             </div>
 
@@ -896,7 +1033,10 @@
                 </div>
             </div>
 
-            <div class="menu-spacer"></div>
+            <!-- Rotating Ribbon Strip in Empty Space -->
+            <div class="ribbon-section">
+                <div class="ribbon-track" id="ribbon-track"></div>
+            </div>
 
             <!-- Bottom Smaller Action Buttons -->
             <div class="menu-actions-grid">
@@ -1007,14 +1147,72 @@
     </div>
 
     <script>
-        // Initialize Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
+
+        // Cake Images List (29 ta rasm)
+        const cakeLinks = [
+            "https://ibb.co/MyW3wHcP",
+            "https://ibb.co/XryJj1N7",
+            "https://ibb.co/HTxWQwsL",
+            "https://ibb.co/FLY33hrQ",
+            "https://ibb.co/N6KRgpPz",
+            "https://ibb.co/tPKPTcDR",
+            "https://ibb.co/nMBZ1sbd",
+            "https://ibb.co/b5sjKXSZ",
+            "https://ibb.co/PsFNfJ6D",
+            "https://ibb.co/b59cRQ9m",
+            "https://ibb.co/DH0S32d8",
+            "https://ibb.co/Kzjh7pLP",
+            "https://ibb.co/35yR1pjK",
+            "https://ibb.co/RTyF6bHx",
+            "https://ibb.co/v43WgW5t",
+            "https://ibb.co/S4hxzKr2",
+            "https://ibb.co/fYwFbvWR",
+            "https://ibb.co/v62LXL3d",
+            "https://ibb.co/nMgPCTSr",
+            "https://ibb.co/N6B4pFfF",
+            "https://ibb.co/R4NZKGfK",
+            "https://ibb.co/N2Vs9GsS",
+            "https://ibb.co/6cVFPBgf",
+            "https://ibb.co/23848rDL",
+            "https://ibb.co/ZR5XsPYR",
+            "https://ibb.co/6pLpWXr",
+            "https://ibb.co/zVpFmcHN",
+            "https://ibb.co/DHT3w5F6",
+            "https://ibb.co/6RkC8zCQ"
+        ];
+
+        // Fallback image if external host blocks hotlink
+        const fallbackCakeSvg = "data:image/svg+xml;utf8," + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+                <rect width="400" height="400" fill="#fff5f8"/>
+                <text x="200" y="185" font-size="90" text-anchor="middle">🎂</text>
+                <text x="200" y="245" font-family="sans-serif" font-size="22" font-weight="bold" fill="#ff6b9d" text-anchor="middle">Nezzy_cake</text>
+            </svg>
+        `);
+
+        // Populate Rotating Ribbon Strip (duplicated for seamless loop)
+        const ribbonTrack = document.getElementById('ribbon-track');
+        const allRibbonItems = [...cakeLinks, ...cakeLinks];
+        allRibbonItems.forEach((url, idx) => {
+            const realIndex = idx % cakeLinks.length;
+            const item = document.createElement('div');
+            item.className = 'ribbon-item';
+            item.onclick = () => openModal('catalog', realIndex);
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Tort ${realIndex + 1}`;
+            img.loading = "lazy";
+            img.onerror = function() { this.src = fallbackCakeSvg; };
+            item.appendChild(img);
+            ribbonTrack.appendChild(item);
+        });
 
         // Floating Background Elements
         const icons = ['🎂', '🍰', '🧁', '🍓', '✨', '🤍', '🌸'];
         const bgContainer = document.getElementById('bg-animation');
-        for (let i = 0; i < 18; i++) {
+        for (let i = 0; i < 16; i++) {
             const el = document.createElement('div');
             el.className = 'floating-item';
             el.innerText = icons[Math.floor(Math.random() * icons.length)];
@@ -1122,13 +1320,11 @@
             });
         }
 
-        // Navigation between Welcome -> Register -> Main App
         function goToRegister() {
             document.getElementById('welcome-screen').classList.remove('active');
             document.getElementById('register-screen').classList.add('active');
         }
 
-        // Auto-format dd.mm.yyyy
         function formatDateInput(input) {
             let v = input.value.replace(/\D/g, '');
             if (v.length >= 3 && v.length <= 4) {
@@ -1139,7 +1335,6 @@
             input.value = v;
         }
 
-        // User State
         let userData = JSON.parse(localStorage.getItem('nezzy_user')) || null;
 
         function submitRegistration() {
@@ -1156,7 +1351,6 @@
 
             errEl.style.display = 'none';
 
-            // Calculate Age
             const parts = dob.split('.');
             const birthYear = parseInt(parts[2], 10);
             const currentYear = new Date().getFullYear();
@@ -1181,7 +1375,6 @@
             document.getElementById('register-screen').classList.remove('active');
             document.getElementById('app-container').classList.add('active');
 
-            // Populate Profile
             document.getElementById('prof-name').innerText = userData.name;
             document.getElementById('prof-age').innerText = userData.age + ' yosh';
             document.getElementById('prof-phone').innerText = userData.phone;
@@ -1190,12 +1383,10 @@
             document.getElementById('prof-invites').innerText = userData.invites + ' ta';
         }
 
-        // Auto-login if already registered
         if (userData) {
             loadMainApp();
         }
 
-        // Bottom Tabs Switcher
         function switchTab(tab) {
             document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1204,7 +1395,6 @@
             document.getElementById('nav-' + tab).classList.add('active');
         }
 
-        // Chat Functionality
         function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
@@ -1226,55 +1416,229 @@
             return div.innerHTML;
         }
 
+        // Catalog Slider State
+        let currentCakeIndex = 0;
+
+        function updateCatalogSlide() {
+            const imgEl = document.getElementById('catalog-current-img');
+            const counterEl = document.getElementById('catalog-counter');
+            if (!imgEl || !counterEl) return;
+
+            imgEl.onerror = function() { this.src = fallbackCakeSvg; };
+            imgEl.src = cakeLinks[currentCakeIndex];
+            counterEl.innerText = `${currentCakeIndex + 1} / ${cakeLinks.length}`;
+        }
+
+        function prevCake() {
+            currentCakeIndex = (currentCakeIndex - 1 + cakeLinks.length) % cakeLinks.length;
+            updateCatalogSlide();
+        }
+
+        function nextCake() {
+            currentCakeIndex = (currentCakeIndex + 1) % cakeLinks.length;
+            updateCatalogSlide();
+        }
+
+        // Order Photo Preview State
+        let orderPhotoName = "";
+
+        function handleOrderPhoto(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                orderPhotoName = file.name;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('order-photo-preview');
+                    const placeholder = document.getElementById('order-photo-placeholder');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function submitCakeOrder() {
+            const price = document.getElementById('order-price').value;
+            const phone = document.getElementById('order-phone').value.trim();
+            const date = document.getElementById('order-date').value.trim();
+            const time = document.getElementById('order-time').value;
+            const textOnCake = document.getElementById('order-cake-text').value.trim();
+            const extraNote = document.getElementById('order-extra-note').value.trim();
+            const errEl = document.getElementById('order-error');
+
+            if (!price || phone.length < 12 || date.length < 10 || !time) {
+                errEl.style.display = 'block';
+                return;
+            }
+            errEl.style.display = 'none';
+
+            const customerName = userData ? userData.name : "Mijoz";
+            const messageText =
+`🎂 YANGI TORT BUYURTMA (NEZZY_CAKE)
+
+👤 Mijoz: ${customerName}
+🖼 Rasm: ${orderPhotoName ? orderPhotoName : "Galereyadan tanlandi"}
+💰 Tort narxi: ${price}
+📞 Telefon: ${phone}
+📅 Olib ketish sanasi: ${date}
+⏰ Olib ketish vaqti: ${time}
+✍️ Tort ustiga yozuv: ${textOnCake || "Yo‘q"}
+📝 Qo‘shimcha izoh: ${extraNote || "Yo‘q"}`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(messageText).catch(() => {});
+            }
+
+            const tgUrl = `https://t.me/shaxjan_1?text=${encodeURIComponent(messageText)}`;
+            window.open(tgUrl, '_blank');
+        }
+
         // Modals for Menu Buttons
-        function openModal(type) {
+        function openModal(type, startIdx = 0) {
             const overlay = document.getElementById('modal-overlay');
             const title = document.getElementById('modal-title');
             const body = document.getElementById('modal-body');
 
             if (type === 'catalog') {
+                currentCakeIndex = startIdx;
                 title.innerText = "🍰 Tort Katalogi";
                 body.innerHTML = `
-                    <div class="catalog-item"><span>🎂 Maxsus qavatli tortlar</span><span>✨ Buyurtma asosida</span></div>
-                    <div class="catalog-item"><span>🧸 Bolalar uchun maxsus tortlar</span><span>✨ Dizayn tanlash</span></div>
-                    <div class="catalog-item"><span>🍓 Mevali va shokoladli tortlar</span><span>✨ Yangi tayyorlangan</span></div>
-                    <div class="catalog-item"><span>🍱 Bento tortlar & Triflelar</span><span>✨ Har kuni mavjud</span></div>
-                    <div class="catalog-item"><span>🥐 Chizkeyk & Kruassanlar</span><span>✨ Issiqina</span></div>
+                    <div class="single-slider-box">
+                        <div class="single-img-frame">
+                            <img id="catalog-current-img" src="${cakeLinks[currentCakeIndex]}" alt="Tort">
+                        </div>
+                        <div class="slider-controls">
+                            <button class="slider-nav-btn" onclick="prevCake()">
+                                <i class="fa-solid fa-chevron-left"></i> Orqaga
+                            </button>
+                            <div class="slider-counter" id="catalog-counter">${currentCakeIndex + 1} / ${cakeLinks.length}</div>
+                            <button class="slider-nav-btn" onclick="nextCake()">
+                                Oldinga <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
                 `;
+                updateCatalogSlide();
             } else if (type === 'prices') {
                 title.innerText = "🏷 Tort Narxlari";
                 body.innerHTML = `
-                    <div class="catalog-item"><span>🍱 Bento tort (400-500 gr)</span><strong>65 000 so‘m dan</strong></div>
-                    <div class="catalog-item"><span>🍰 Klassik tortlar (1 kg)</span><strong>130 000 so‘m dan</strong></div>
-                    <div class="catalog-item"><span>🎂 Maxsus bezakli tortlar (1 kg)</span><strong>160 000 so‘m dan</strong></div>
-                    <div class="catalog-item"><span>🍨 Trifle (1 dona)</span><strong>22 000 so‘m</strong></div>
+                    <div class="price-pre-box">🎂 NEZZY_CAKE — TORT NARXLARI
+
+Mehmonlar soniga qarab o‘zingizga mos tort hajmini tanlang!
+
+━━━━━━━━━━━━━━
+
+70 000 so‘m — 5–6 kishilik
+90 000 so‘m — 7–8 kishilik
+100 000 so‘m — 8–10 kishilik
+125 000 so‘m — 12–15 kishilik
+170 000 so‘m — 18–20 kishilik
+220 000 so‘m — 25–28 kishilik
+250 000 so‘m — 28–30 kishilik
+300 000 so‘m — 30–35 kishilik
+350 000 so‘m — 35–40 kishilik
+
+━━━━━━━━━━━━━━
+
+🍰 Har bir tort mehr va did bilan tayyorlanadi!
+
+NEZZY_CAKE — Bayramingizni shirin qiling!</div>
                 `;
             } else if (type === 'order') {
+                orderPhotoName = "";
+                const defaultPhone = (userData && userData.phone) ? userData.phone : "+998";
                 title.innerText = "🛍 Tort buyurtma berish";
                 body.innerHTML = `
-                    <p style="font-size:14px; margin-bottom:14px;">O‘zingizga yoqqan tortni buyurtma qilish uchun administratorimizga yozing yoki qo‘ng‘iroq qiling:</p>
-                    <a href="https://t.me/shaxjan_2" target="_blank" class="btn-primary" style="display:block; text-align:center; text-decoration:none; margin-bottom:10px;">
-                        <i class="fa-brands fa-telegram"></i> Telegram orqali (@shaxjan_2)
-                    </a>
-                    <a href="tel:+998940268001" class="btn-primary" style="display:block; text-align:center; text-decoration:none; background: #25d366;">
-                        <i class="fa-solid fa-phone"></i> Qo‘ng‘iroq qilish (+998940268001)
-                    </a>
+                    <div class="form-group">
+                        <label>Tortni rasmi :</label>
+                        <input type="file" id="order-photo-input" accept="image/*" style="display:none;" onchange="handleOrderPhoto(this)">
+                        <div class="photo-upload-box" onclick="document.getElementById('order-photo-input').click()">
+                            <div id="order-photo-placeholder" style="text-align:center;">
+                                <i class="fa-solid fa-plus"></i>
+                                <div style="font-size:12.5px; color:var(--text-muted);">Galereyadan rasm tanlang</div>
+                            </div>
+                            <img id="order-photo-preview" alt="Tanlangan tort rasmi">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tort narxi :</label>
+                        <select id="order-price" class="form-control">
+                            <option value="">-- Narx va hajmni tanlang --</option>
+                            <option value="70 000 so‘m — 5–6 kishilik">70 000 so‘m — 5–6 kishilik</option>
+                            <option value="90 000 so‘m — 7–8 kishilik">90 000 so‘m — 7–8 kishilik</option>
+                            <option value="100 000 so‘m — 8–10 kishilik">100 000 so‘m — 8–10 kishilik</option>
+                            <option value="125 000 so‘m — 12–15 kishilik">125 000 so‘m — 12–15 kishilik</option>
+                            <option value="170 000 so‘m — 18–20 kishilik">170 000 so‘m — 18–20 kishilik</option>
+                            <option value="220 000 so‘m — 25–28 kishilik">220 000 so‘m — 25–28 kishilik</option>
+                            <option value="250 000 so‘m — 28–30 kishilik">250 000 so‘m — 28–30 kishilik</option>
+                            <option value="300 000 so‘m — 30–35 kishilik">300 000 so‘m — 30–35 kishilik</option>
+                            <option value="350 000 so‘m — 35–40 kishilik">350 000 so‘m — 35–40 kishilik</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefon nomeringiz :</label>
+                        <input type="tel" id="order-phone" class="form-control" value="${defaultPhone}" maxlength="13">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Olib ketish sanasi : (kun.oy.yil)</label>
+                        <input type="text" id="order-date" class="form-control" placeholder="25.11.2026" maxlength="10" oninput="formatDateInput(this)">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Olib ketish vaqti :</label>
+                        <input type="time" id="order-time" class="form-control" value="00:00">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Izox (tort ustiga yozuv bo‘lsa shu yerga yozing) :</label>
+                        <input type="text" id="order-cake-text" class="form-control" placeholder="Masalan: Tug‘ilgan kuningiz bilan!">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Izox (qo‘shimcha istak yoki tafsilotlar) :</label>
+                        <textarea id="order-extra-note" class="form-control" rows="2" placeholder="Qo‘shimcha izohingiz..."></textarea>
+                    </div>
+
+                    <div class="error-msg" id="order-error">⚠️ Iltimos, narx, telefon, sana va vaqtni to‘liq kiriting!</div>
+
+                    <button class="btn-primary" onclick="submitCakeOrder()">
+                        Buyurtmani jo‘natish (@shaxjan_1)
+                    </button>
                 `;
             } else if (type === 'location') {
                 title.innerText = "📍 Bizning manzil";
                 body.innerHTML = `
                     <div class="game-rule-card">
                         <strong>Manzil:</strong> Jizzax shahri, Nezzy Cake qandolatchilik markazi.<br><br>
-                        <strong>Ish vaqti:</strong> Har kuni 08:00 dan 22:00 gacha.
+                        <strong>Koordinatalar:</strong> 40.107436, 67.838255
                     </div>
+                    <a href="https://maps.apple.com/maps?ll=40.10743616866287,67.83825537368526&q=40.10743616866287,67.83825537368526&t=m" target="_blank" class="btn-primary" style="display:block; text-align:center; text-decoration:none;">
+                        <i class="fa-solid fa-map-location-dot"></i> Xaritada ochish (Apple Maps)
+                    </a>
                 `;
             } else if (type === 'admin') {
-                title.innerText = "👨‍💼 Admin bilan bog‘lanish";
+                title.innerText = "👨‍💼 Admin bn bog‘lanish";
                 body.innerHTML = `
-                    <div class="game-rule-card">
-                        <strong>Telegram:</strong> <a href="https://t.me/shaxjan_2" target="_blank">@shaxjan_2</a><br><br>
-                        <strong>Telefon:</strong> <a href="tel:+998940268001">+998 94 026 80 01</a>
-                    </div>
+                    <a href="https://t.me/shaxjan_2" target="_blank" class="contact-link-row">
+                        <span><i class="fa-brands fa-telegram" style="color:#0088cc;"></i> Telegram (@shaxjan_2)</span>
+                        <strong>Ochish →</strong>
+                    </a>
+                    <a href="tel:+998940268001" class="contact-link-row">
+                        <span><i class="fa-solid fa-phone" style="color:#ff6b9d;"></i> Telefon (+998940268001)</span>
+                        <strong>Qo‘ng‘iroq →</strong>
+                    </a>
+                    <a href="https://instagram.com/_shaxjan_1" target="_blank" class="contact-link-row">
+                        <span><i class="fa-brands fa-instagram" style="color:#e1306c;"></i> Instagram (@_shaxjan_1)</span>
+                        <strong>Ochish →</strong>
+                    </a>
+                    <a href="https://wa.me/998940268001" target="_blank" class="contact-link-row">
+                        <span><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp (+998940268001)</span>
+                        <strong>Yozish →</strong>
+                    </a>
                 `;
             } else if (type === 'game') {
                 title.innerText = "🎁 Yutuqli o‘yin shartlari";
