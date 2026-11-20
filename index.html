@@ -251,6 +251,23 @@
             transform: scale(0.98);
         }
 
+        .btn-admin-gold {
+            width: 100%;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1.5px solid #d4af37;
+            background: linear-gradient(135deg, #222222, #3b2f0b);
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
         /* Registration Screen */
         #register-screen {
             justify-content: center;
@@ -553,6 +570,7 @@
             flex-shrink: 0;
             border: 1.5px solid var(--primary-pink);
             background: #fff0f5;
+            cursor: pointer;
         }
 
         .msg-bubble {
@@ -623,6 +641,9 @@
             align-items: center;
             gap: 5px;
             flex-wrap: wrap;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
         }
 
         .vip-tag {
@@ -633,6 +654,7 @@
             padding: 1px 6px;
             border-radius: 8px;
             letter-spacing: 0.4px;
+            text-decoration: none;
         }
 
         .chat-input-box {
@@ -732,6 +754,18 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .small-edit-btn {
+            background: #fff0f5;
+            border: 1px solid #ffd1e1;
+            color: var(--primary-pink);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            cursor: pointer;
         }
 
         .profile-points {
@@ -1349,9 +1383,7 @@
                 </div>
 
                 <div class="profile-name" id="prof-name">Foydalanuvchi</div>
-                <div class="profile-username-row" id="prof-username-row">
-                    <span id="prof-username">@user</span>
-                </div>
+                <div class="profile-username-row" id="prof-username-row"></div>
 
                 <div class="profile-points">
                     <span class="points-pill">⭐ <span id="prof-points">50</span> ball</span>
@@ -1375,6 +1407,9 @@
                         <span class="info-val" id="prof-invites">0 ta</span>
                     </div>
                 </div>
+
+                <!-- Admin Panel Button inside own profile when @shaxjan_2 -->
+                <div id="profile-admin-slot"></div>
             </div>
 
             <!-- Instagram-like Post Creator & Feed -->
@@ -1682,7 +1717,6 @@
             input.value = v;
         }
 
-        // Storage States
         let userData = JSON.parse(localStorage.getItem('nezzy_user')) || null;
         let subscribersList = JSON.parse(localStorage.getItem('nezzy_subscribers')) || [
             {
@@ -1713,11 +1747,9 @@
 
         let userPosts = JSON.parse(localStorage.getItem('nezzy_user_posts')) || [];
 
-        // Check referral parameter (?ref=...)
         const urlParams = new URLSearchParams(window.location.search);
         const refParam = urlParams.get('ref') || (tg.initDataUnsafe && tg.initDataUnsafe.start_param) || "";
 
-        // Prefill Telegram username if available
         const tgUser = tg.initDataUnsafe && tg.initDataUnsafe.user;
         if (tgUser && tgUser.username) {
             const uInput = document.getElementById('reg-username');
@@ -1767,7 +1799,6 @@
                 avatar: defaultAvatar
             };
 
-            // Credit referral invite if refParam exists
             if (refParam) {
                 subscribersList = subscribersList.map(sub => {
                     if (sub.id === refParam || sub.username === refParam) {
@@ -1779,7 +1810,6 @@
                 });
             }
 
-            // Add or update in subscribers list
             const existingIdx = subscribersList.findIndex(s => s.username.toLowerCase() === rawUsername.toLowerCase());
             if (existingIdx >= 0) {
                 subscribersList[existingIdx] = { ...subscribersList[existingIdx], ...userData };
@@ -1797,9 +1827,22 @@
             const idx = subscribersList.findIndex(s => s.id === userData.id || s.username === userData.username);
             if (idx >= 0) {
                 subscribersList[idx] = { ...subscribersList[idx], ...userData };
+            } else {
+                subscribersList.push(userData);
             }
             localStorage.setItem('nezzy_user', JSON.stringify(userData));
             localStorage.setItem('nezzy_subscribers', JSON.stringify(subscribersList));
+        }
+
+        function editOwnUsername() {
+            if (!userData) return;
+            const nextU = prompt("Yangi Telegram username kiriting (masalan: shaxjan_2):", "@" + userData.username);
+            if (!nextU) return;
+            const clean = nextU.trim().replace(/^@/, "");
+            if (!clean) return;
+            userData.username = clean;
+            syncUserToSubscribers();
+            loadMainApp();
         }
 
         function loadMainApp() {
@@ -1808,7 +1851,6 @@
             document.getElementById('register-screen').classList.remove('active');
             document.getElementById('app-container').classList.add('active');
 
-            // Show Admin Panel only for @shaxjan_2
             const adminBtn = document.getElementById('admin-panel-btn');
             if (isUserAdmin(userData)) {
                 adminBtn.classList.add('visible');
@@ -1824,6 +1866,7 @@
         function renderProfile() {
             if (!userData) return;
             const vip = isUserVip(userData);
+            const isAdmin = isUserAdmin(userData);
             const cardBox = document.getElementById('profile-card-box');
             if (vip) {
                 cardBox.classList.add('vip-card');
@@ -1835,13 +1878,28 @@
             document.getElementById('prof-name').innerText = userData.name;
 
             const uRow = document.getElementById('prof-username-row');
-            uRow.innerHTML = `${vip ? '<span class="vip-tag">VIP</span>' : ''}<span>@${escapeHtml(userData.username)}</span>`;
+            uRow.innerHTML = `
+                ${vip ? '<span class="vip-tag">VIP</span>' : ''}
+                <span>@${escapeHtml(userData.username)}</span>
+                <button class="small-edit-btn" onclick="editOwnUsername()"><i class="fa-solid fa-pen"></i> Username</button>
+            `;
 
             document.getElementById('prof-points').innerText = userData.points;
             document.getElementById('prof-age').innerText = userData.age + ' yosh';
             document.getElementById('prof-phone').innerText = userData.phone;
             document.getElementById('prof-address').innerText = userData.address;
             document.getElementById('prof-invites').innerText = (userData.invites || 0) + ' ta';
+
+            const adminSlot = document.getElementById('profile-admin-slot');
+            if (isAdmin) {
+                adminSlot.innerHTML = `
+                    <button class="btn-admin-gold" onclick="openModal('admin_panel')">
+                        <i class="fa-solid fa-crown"></i> Admin Panelni Ochish (@shaxjan_2)
+                    </button>
+                `;
+            } else {
+                adminSlot.innerHTML = "";
+            }
         }
 
         function handleProfileAvatarChange(input) {
@@ -1874,6 +1932,78 @@
             }
         }
 
+        // Open profile when clicking on any chat participant's avatar or name
+        function openChatUserProfile(username, fallbackName, fallbackAvatar) {
+            const cleanU = (username || "").replace(/^@/, "").toLowerCase();
+            let target = subscribersList.find(s => (s.username || "").toLowerCase() === cleanU);
+
+            if (!target && userData && (userData.username || "").toLowerCase() === cleanU) {
+                target = userData;
+            }
+
+            if (!target) {
+                target = {
+                    name: fallbackName || "Foydalanuvchi",
+                    username: cleanU || "user",
+                    age: "-",
+                    phone: "Ko‘rsatilmagan",
+                    address: "Jizzax",
+                    points: 50,
+                    invites: 0,
+                    avatar: fallbackAvatar || defaultAvatar
+                };
+            }
+
+            const vip = isUserVip(target);
+            const showAdminBtn = isUserAdmin(userData) && isUserAdmin(target);
+
+            const overlay = document.getElementById('modal-overlay');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+
+            title.innerText = "👤 Foydalanuvchi profili";
+            body.innerHTML = `
+                <div style="text-align:center; margin-bottom:14px;">
+                    <img src="${target.avatar || defaultAvatar}" style="width:76px; height:76px; border-radius:50%; object-fit:cover; border:3px solid ${vip ? '#d4af37' : '#ff6b9d'};">
+                    <div style="font-size:18px; font-weight:700; margin-top:8px;">${escapeHtml(target.name)}</div>
+                    <div style="margin-top:4px;">
+                        ${vip ? '<span class="vip-tag">VIP</span>' : ''}
+                        <span style="font-size:13px; color:var(--text-muted);">@${escapeHtml(target.username)}</span>
+                    </div>
+                </div>
+
+                <div class="profile-info-list">
+                    <div class="info-row">
+                        <span class="info-label">Ballar:</span>
+                        <span class="info-val">⭐ ${target.points || 0} ball</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Yoshi:</span>
+                        <span class="info-val">${escapeHtml(String(target.age))} yosh</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Manzil:</span>
+                        <span class="info-val">${escapeHtml(target.address || "-")}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Taklif qilgan do‘stlari:</span>
+                        <span class="info-val">${target.invites || 0} ta</span>
+                    </div>
+                </div>
+
+                <a href="https://t.me/${encodeURIComponent(target.username)}" target="_blank" class="btn-primary" style="display:block; text-align:center; text-decoration:none; margin-top:14px;">
+                    <i class="fa-brands fa-telegram"></i> Telegramda yozish (@${escapeHtml(target.username)})
+                </a>
+
+                ${showAdminBtn ? `
+                    <button class="btn-admin-gold" onclick="openModal('admin_panel')">
+                        <i class="fa-solid fa-crown"></i> Admin Panelni Ochish
+                    </button>
+                ` : ""}
+            `;
+            overlay.classList.add('active');
+        }
+
         // Chat & Announcements
         function markAnnouncementsViewed() {
             if (!userData) return;
@@ -1897,6 +2027,8 @@
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if (!text || !userData) return;
+
+            syncUserToSubscribers();
 
             chatMessages.push({
                 id: "m_" + Date.now(),
@@ -1925,23 +2057,23 @@
                     div.className = 'msg-announcement';
                     div.innerHTML = `
                         <span class="announcement-badge">📢 RASMIY E’LON</span>
-                        <div class="msg-sender">${escapeHtml(m.senderName)} <span class="vip-tag">VIP</span> @${escapeHtml(m.senderUsername)}</div>
+                        <div class="msg-sender" onclick="openChatUserProfile('${escapeHtml(m.senderUsername)}', '${escapeHtml(m.senderName)}', '${m.senderAvatar || defaultAvatar}')">${escapeHtml(m.senderName)} <span class="vip-tag">VIP</span> @${escapeHtml(m.senderUsername)}</div>
                         ${m.image ? `<img src="${m.image}" class="announcement-img" alt="E'lon rasmi">` : ""}
                         <div style="font-size:13.5px; line-height:1.45;">${escapeHtml(m.text)}</div>
                         <div class="announcement-views"><i class="fa-solid fa-eye"></i> Ko‘rganlar soni: ${viewCount} ta</div>
                     `;
                     chatBox.appendChild(div);
                 } else {
-                    const isMine = userData && (m.senderUsername === userData.username);
+                    const isMine = userData && (m.senderUsername.toLowerCase() === userData.username.toLowerCase());
                     const row = document.createElement('div');
                     row.className = `chat-msg-row ${isMine ? 'mine' : ''}`;
                     row.innerHTML = `
-                        <img src="${m.senderAvatar || defaultAvatar}" class="chat-avatar-sm" alt="avatar">
+                        <img src="${m.senderAvatar || defaultAvatar}" class="chat-avatar-sm" alt="avatar" onclick="openChatUserProfile('${escapeHtml(m.senderUsername)}', '${escapeHtml(m.senderName)}', '${m.senderAvatar || defaultAvatar}')">
                         <div class="msg-bubble ${isMine ? 'msg-mine' : 'msg-other'}">
-                            <div class="msg-sender">
+                            <div class="msg-sender" onclick="openChatUserProfile('${escapeHtml(m.senderUsername)}', '${escapeHtml(m.senderName)}', '${m.senderAvatar || defaultAvatar}')">
                                 ${m.isVip ? '<span class="vip-tag">VIP</span>' : ''}
                                 <span>${escapeHtml(m.senderName)}</span>
-                                <span style="opacity:0.75; font-weight:400;">@${escapeHtml(m.senderUsername)}</span>
+                                <span style="opacity:0.78; font-weight:400;">@${escapeHtml(m.senderUsername)}</span>
                             </div>
                             <div>${escapeHtml(m.text)}</div>
                         </div>
@@ -2010,7 +2142,6 @@
                 post.likes = (post.likes || 0) + 1;
                 post.likedByMe = true;
 
-                // 10 likes => +5 ball reward once per post
                 if (post.likes >= 10 && !post.rewardClaimed) {
                     post.rewardClaimed = true;
                     if (userData && post.authorUsername === userData.username) {
@@ -2033,7 +2164,6 @@
             const refCode = userData ? userData.username : "nezzy";
             const baseUrl = window.location.origin + window.location.pathname;
             const shareUrl = `${baseUrl}?ref=${encodeURIComponent(refCode)}&post=${encodeURIComponent(postId)}`;
-            const shareText = `🍰 Nezzy Cake mini ilovasida mening postimga layk bosing! Havola: ${shareUrl}`;
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(shareUrl).catch(() => {});
