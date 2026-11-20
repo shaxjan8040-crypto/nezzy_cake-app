@@ -410,7 +410,7 @@
         .ribbon-track {
             display: flex;
             width: max-content;
-            animation: scrollRibbon 38s linear infinite;
+            animation: scrollRibbon 120s linear infinite;
             gap: 10px;
             padding-left: 10px;
         }
@@ -1150,40 +1150,111 @@
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // Cake Images List (29 ta rasm)
+        // Direct Cake Image URLs (100 ta tiniq rasm)
         const cakeLinks = [
-            "https://ibb.co/MyW3wHcP",
-            "https://ibb.co/XryJj1N7",
-            "https://ibb.co/HTxWQwsL",
-            "https://ibb.co/FLY33hrQ",
-            "https://ibb.co/N6KRgpPz",
-            "https://ibb.co/tPKPTcDR",
-            "https://ibb.co/nMBZ1sbd",
-            "https://ibb.co/b5sjKXSZ",
-            "https://ibb.co/PsFNfJ6D",
-            "https://ibb.co/b59cRQ9m",
-            "https://ibb.co/DH0S32d8",
-            "https://ibb.co/Kzjh7pLP",
-            "https://ibb.co/35yR1pjK",
-            "https://ibb.co/RTyF6bHx",
-            "https://ibb.co/v43WgW5t",
-            "https://ibb.co/S4hxzKr2",
-            "https://ibb.co/fYwFbvWR",
-            "https://ibb.co/v62LXL3d",
-            "https://ibb.co/nMgPCTSr",
-            "https://ibb.co/N6B4pFfF",
-            "https://ibb.co/R4NZKGfK",
-            "https://ibb.co/N2Vs9GsS",
-            "https://ibb.co/6cVFPBgf",
-            "https://ibb.co/23848rDL",
-            "https://ibb.co/ZR5XsPYR",
-            "https://ibb.co/6pLpWXr",
-            "https://ibb.co/zVpFmcHN",
-            "https://ibb.co/DHT3w5F6",
-            "https://ibb.co/6RkC8zCQ"
+            "https://i.ibb.co/2zTXfmD/IMG-20261030-104935.jpg",
+            "https://i.ibb.co/20jfz9DQ/IMG-20261027-124808-722.jpg",
+            "https://i.ibb.co/1GpR498z/IMG-20261027-124812-839.jpg",
+            "https://i.ibb.co/FqBw9Pyb/IMG-20261026-023126-461.jpg",
+            "https://i.ibb.co/7N0hLNqR/IMG-20261026-023135-855.jpg",
+            "https://i.ibb.co/3yy2jZBD/IMG-20261025-183357-039.jpg",
+            "https://i.ibb.co/xqQD64LR/IMG-20261025-133515-233.jpg",
+            "https://i.ibb.co/MyZYJ0M4/IMG-20261022-180604-832.jpg",
+            "https://i.ibb.co/FLC5nFKz/IMG-20261022-180554-236.jpg",
+            "https://i.ibb.co/B2pyGpXN/IMG-20261021-005538-868.jpg",
+            "https://i.ibb.co/ZzWBYK6W/IMG-20261021-005548-600.jpg",
+            "https://i.ibb.co/G4jXm3nY/IMG-20261021-005544-050.jpg",
+            "https://i.ibb.co/Q3YpwD2T/IMG-20261021-005526-088.jpg",
+            "https://i.ibb.co/wh72hv7p/IMG-20261021-005522-289.jpg",
+            "https://i.ibb.co/d4XmxFzy/IMG-20261021-005519-059.jpg",
+            "https://i.ibb.co/XwsQ7bh/IMG-20261021-005454-183.jpg",
+            "https://i.ibb.co/d0kTwjDr/IMG-20261021-005457-551.jpg",
+            "https://i.ibb.co/LdSdM8LZ/IMG-20261021-005503-562.jpg",
+            "https://i.ibb.co/Cs9xg1YQ/IMG-20261021-005449-173.jpg",
+            "https://i.ibb.co/LdkQQR8y/IMG-20261021-005445-592.jpg",
+            "https://i.ibb.co/GvTSknQd/IMG-20261021-005445-598.jpg",
+            "https://i.ibb.co/YF1X3k4k/IMG-20261021-005438-437.jpg",
+            "https://i.ibb.co/N2WNJp62/IMG-20261021-005433-154.jpg",
+            "https://i.ibb.co/3ybxMSzc/IMG-20261021-005433-377.jpg",
+            "https://i.ibb.co/yF4JJMYD/IMG-20261021-005427-818.jpg",
+            "https://i.ibb.co/6cpCz8jn/IMG-20261021-005411-073.jpg",
+            "https://i.ibb.co/y9fcD4S/IMG-20261021-005408-789.jpg",
+            "https://i.ibb.co/RkyMzRPn/IMG-20261021-005407-356.jpg",
+            "https://i.ibb.co/9mgPVKm0/IMG-20261021-005405-190.jpg",
+            "https://i.ibb.co/609PvsrB/IMG-20261021-005403-200.jpg",
+            "https://i.ibb.co/ynX3Lfp1/IMG-20261021-005401-227.jpg",
+            "https://i.ibb.co/3mHqWgTR/IMG-20261021-005351-328.jpg",
+            "https://i.ibb.co/x83pxRsN/IMG-20261021-005346-871.jpg",
+            "https://i.ibb.co/VcnFpLVQ/IMG-20261021-005346-652.jpg",
+            "https://i.ibb.co/mrpV8xRV/IMG-20261021-005339-978.jpg",
+            "https://i.ibb.co/XrR2h6Wh/IMG-20261021-005334-843.jpg",
+            "https://i.ibb.co/gFh29zWY/IMG-20261021-005356-471.jpg",
+            "https://i.ibb.co/VrC29Jr/IMG-20261021-005334-642.jpg",
+            "https://i.ibb.co/jPMPFPCR/IMG-20261021-005323-903.jpg",
+            "https://i.ibb.co/dszkLvmN/IMG-20261021-005313-248.jpg",
+            "https://i.ibb.co/jZT8QWDC/IMG-20261021-005313-742.jpg",
+            "https://i.ibb.co/kgZSpkJ0/IMG-20261021-005244-267.jpg",
+            "https://i.ibb.co/pBRw2cPy/IMG-20261021-005249-238.jpg",
+            "https://i.ibb.co/3mWRHNCT/IMG-20261021-005317-604.jpg",
+            "https://i.ibb.co/pjt4pCKd/IMG-20261021-005253-585.jpg",
+            "https://i.ibb.co/8D13DXdg/IMG-20261021-005328-186.jpg",
+            "https://i.ibb.co/GQBc4wQr/IMG-20261021-005317-786.jpg",
+            "https://i.ibb.co/n4kSLpj/IMG-20261021-005318-294.jpg",
+            "https://i.ibb.co/vCg5VRWZ/IMG-20261021-005235-334.jpg",
+            "https://i.ibb.co/gZHCZZdq/IMG-20261021-005230-629.jpg",
+            "https://i.ibb.co/0ppFvf4X/IMG-20261021-005235-016.jpg",
+            "https://i.ibb.co/jkqP7CPQ/IMG-20261021-005230-745.jpg",
+            "https://i.ibb.co/TDRsjhDf/IMG-20261021-005230-067.jpg",
+            "https://i.ibb.co/MDk9X3GP/IMG-20261021-005230-003.jpg",
+            "https://i.ibb.co/1G7N7m60/IMG-20261021-005224-415.jpg",
+            "https://i.ibb.co/WvHBS4hh/IMG-20261021-005220-889.jpg",
+            "https://i.ibb.co/1Gw5DWdV/IMG-20261021-005216-524.jpg",
+            "https://i.ibb.co/21y0jwB7/IMG-20261021-005212-133.jpg",
+            "https://i.ibb.co/mV861N9j/IMG-20261021-005230-579.jpg",
+            "https://i.ibb.co/chQwZVJg/IMG-20261021-005200-201.jpg",
+            "https://i.ibb.co/d42g3VcC/IMG-20261021-005139-730.jpg",
+            "https://i.ibb.co/kjP36v8/IMG-20261021-005131-424.jpg",
+            "https://i.ibb.co/Qj3VrvQy/IMG-20261021-005155-107.jpg",
+            "https://i.ibb.co/S4QncKQN/IMG-20261021-005151-596.jpg",
+            "https://i.ibb.co/TMWwvXM6/IMG-20261021-005120-606.jpg",
+            "https://i.ibb.co/7dFcGKrV/IMG-20261021-005122-289.jpg",
+            "https://i.ibb.co/mCzJT6JJ/IMG-20261021-005049-739.jpg",
+            "https://i.ibb.co/Z1hvBZT0/IMG-20261021-005022-076.jpg",
+            "https://i.ibb.co/Q3Wk64Q1/IMG-20261021-004959-091.jpg",
+            "https://i.ibb.co/pvJRKmBS/IMG-20261021-004946-563.jpg",
+            "https://i.ibb.co/v6VxwmGR/IMG-20261021-004832-740.jpg",
+            "https://i.ibb.co/Pf0m11m/IMG-20261021-004849-676.jpg",
+            "https://i.ibb.co/CKFhFgG6/IMG-20261021-004733-526.jpg",
+            "https://i.ibb.co/ccWVQp0Q/IMG-20261021-004815-654.jpg",
+            "https://i.ibb.co/bjdBnCqs/IMG-20261021-004804-153.jpg",
+            "https://i.ibb.co/6RQgSFXQ/IMG-20261021-004759-232.jpg",
+            "https://i.ibb.co/FbynRYxQ/IMG-20261021-004633-708.jpg",
+            "https://i.ibb.co/fVjrSKf0/IMG-20261021-004333-031.jpg",
+            "https://i.ibb.co/mr8hHXwW/IMG-20261021-004646-442.jpg",
+            "https://i.ibb.co/yFg33pQH/IMG-20261021-004658-258.jpg",
+            "https://i.ibb.co/rf1pqjms/IMG-20261020-180808-847.jpg",
+            "https://i.ibb.co/xtHN39qf/IMG-20261018-174551-966.jpg",
+            "https://i.ibb.co/6R3Tb9FH/IMG-20261015-125711-986.jpg",
+            "https://i.ibb.co/fVRK7zn7/IMG-20261015-133418-134.jpg",
+            "https://i.ibb.co/35hzpNCG/IMG-20261016-125115-420.jpg",
+            "https://i.ibb.co/6096hnbv/IMG-20261015-125705-771.jpg",
+            "https://i.ibb.co/99Pwv65T/IMG-20261015-125702-712.jpg",
+            "https://i.ibb.co/0jjN0m9b/file-0000000039a081f48569b06dcbae95dd.png",
+            "https://i.ibb.co/bgMtNQRw/file-000000007cbc81f4876c6cdbb5060b49.png",
+            "https://i.ibb.co/tTXdkM5y/IMG-20261014-165328-360.jpg",
+            "https://i.ibb.co/hFwqxnKJ/IMG-20261014-165301-836.jpg",
+            "https://i.ibb.co/1Jr5pk3r/IMG-20261014-154405-479.jpg",
+            "https://i.ibb.co/XkNr63dX/IMG-20261014-115601-795.jpg",
+            "https://i.ibb.co/MytNshX7/IMG-20261011-224704-059.jpg",
+            "https://i.ibb.co/4wq1V7xB/IMG-20261010-182527-588.jpg",
+            "https://i.ibb.co/35fd2XYy/IMG-20261021-004702-514.jpg",
+            "https://i.ibb.co/320TndJ/IMG-20261021-004729-578.jpg",
+            "https://i.ibb.co/k2fsNs7N/IMG-20261021-004725-117.jpg",
+            "https://i.ibb.co/VYW8Hs9g/IMG-20261021-004325-400.jpg",
+            "https://i.ibb.co/Z60S1DQT/IMG-20261021-004633-607.jpg"
         ];
 
-        // Fallback image if external host blocks hotlink
+        // Fallback image if offline
         const fallbackCakeSvg = "data:image/svg+xml;utf8," + encodeURIComponent(`
             <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
                 <rect width="400" height="400" fill="#fff5f8"/>
@@ -1192,7 +1263,7 @@
             </svg>
         `);
 
-        // Populate Rotating Ribbon Strip (duplicated for seamless loop)
+        // Populate Rotating Ribbon Strip
         const ribbonTrack = document.getElementById('ribbon-track');
         const allRibbonItems = [...cakeLinks, ...cakeLinks];
         allRibbonItems.forEach((url, idx) => {
@@ -1490,7 +1561,7 @@
                 navigator.clipboard.writeText(messageText).catch(() => {});
             }
 
-            const tgUrl = `https://t.me/shaxjan_1?text=${encodeURIComponent(messageText)}`;
+            const tgUrl = `https://t.me/shaxjan_2?text=${encodeURIComponent(messageText)}`;
             window.open(tgUrl, '_blank');
         }
 
@@ -1606,7 +1677,7 @@ NEZZY_CAKE — Bayramingizni shirin qiling!</div>
                     <div class="error-msg" id="order-error">⚠️ Iltimos, narx, telefon, sana va vaqtni to‘liq kiriting!</div>
 
                     <button class="btn-primary" onclick="submitCakeOrder()">
-                        Buyurtmani jo‘natish (@shaxjan_1)
+                        Buyurtmani jo‘natish (@shaxjan_2)
                     </button>
                 `;
             } else if (type === 'location') {
