@@ -341,34 +341,31 @@
             display: flex;
         }
 
-        /* Ornamental Background Brand Logo */
+        /* Ornamental Brand Logo placed below ribbon so it stays clearly visible */
         .brand-watermark {
-            position: fixed;
-            top: 38%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
-            z-index: 0;
+            z-index: 1;
             pointer-events: none;
             width: 100%;
+            margin: 6px 0 12px;
             animation: logoFloat 6s ease-in-out infinite;
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -53%) scale(1.03); }
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-4px) scale(1.02); }
         }
 
         .ornament-top, .ornament-bottom {
             color: var(--primary-gold);
-            font-size: 20px;
+            font-size: 18px;
             letter-spacing: 6px;
-            opacity: 0.6;
+            opacity: 0.75;
         }
 
         .brand-script {
             font-family: 'Great Vibes', cursive;
-            font-size: 54px;
+            font-size: 52px;
             background: linear-gradient(135deg, #d4af37, #ff6b9d, #d4af37);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -378,7 +375,7 @@
         /* Tab Views */
         .tab-view {
             display: none;
-            padding: 54px 14px 14px;
+            padding: 52px 14px 14px;
             flex: 1;
             flex-direction: column;
             z-index: 2;
@@ -392,7 +389,7 @@
         .top-socials-wrapper {
             display: flex;
             justify-content: flex-end;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .social-mini-grid {
@@ -417,16 +414,16 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.04);
         }
 
-        /* Rotating Ribbon Strip */
+        /* Rotating Ribbon Strip moved higher up so Nezzy_cake logo is visible */
         .ribbon-section {
-            margin: 72px 0 12px;
+            margin: 6px 0 8px;
             width: 100%;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.82);
             backdrop-filter: blur(6px);
             border-radius: 18px;
             border: 1px solid rgba(212, 175, 55, 0.28);
-            padding: 9px 0;
+            padding: 8px 0;
         }
 
         .ribbon-track {
@@ -447,8 +444,8 @@
         }
 
         .ribbon-item {
-            width: 80px;
-            height: 80px;
+            width: 76px;
+            height: 76px;
             border-radius: 14px;
             overflow: hidden;
             flex-shrink: 0;
@@ -1293,13 +1290,6 @@
 
     <!-- SCREEN 3: MAIN APP -->
     <div id="app-container">
-        
-        <!-- Ornamental Background Brand Watermark -->
-        <div class="brand-watermark">
-            <div class="ornament-top">❖ ❧ ✧ ❧ ❖</div>
-            <div class="brand-script">Nezzy_cake</div>
-            <div class="ornament-bottom">❖ ❧ ✧ ❧ ❖</div>
-        </div>
 
         <!-- TAB 1: GLAVNI MENYU -->
         <div id="tab-home" class="tab-view active">
@@ -1321,9 +1311,16 @@
                 </div>
             </div>
 
-            <!-- Rotating Ribbon Strip in Empty Space -->
+            <!-- Rotating Ribbon Strip higher up -->
             <div class="ribbon-section">
                 <div class="ribbon-track" id="ribbon-track"></div>
+            </div>
+
+            <!-- Clearly visible Nezzy_cake Brand Logo -->
+            <div class="brand-watermark">
+                <div class="ornament-top">❖ ❧ ✧ ❧ ❖</div>
+                <div class="brand-script">Nezzy_cake</div>
+                <div class="ornament-bottom">❖ ❧ ✧ ❧ ❖</div>
             </div>
 
             <!-- Bottom Smaller Action Buttons -->
@@ -1469,6 +1466,12 @@
         tg.expand();
 
         const ADMIN_USERNAME = "shaxjan_2";
+
+        // ==========================================================
+        // FIREBASE REALTIME DATABASE URL (Barcha qurilmalarda jonli sinxronlash uchun)
+        // Masalan: "https://nezzy-cake-default-rtdb.firebaseio.com"
+        // ==========================================================
+        const FIREBASE_DB_URL = "";
 
         // Direct Cake Image URLs (100 ta rasm)
         const cakeLinks = [
@@ -1718,21 +1721,7 @@
         }
 
         let userData = JSON.parse(localStorage.getItem('nezzy_user')) || null;
-        let subscribersList = JSON.parse(localStorage.getItem('nezzy_subscribers')) || [
-            {
-                id: "u_admin_demo",
-                name: "Shaxzod (Admin)",
-                username: "shaxjan_2",
-                dob: "10.05.2000",
-                age: 26,
-                phone: "+998940268001",
-                address: "Jizzax shaxar",
-                points: 999,
-                invites: 45,
-                avatar: defaultAvatar
-            }
-        ];
-
+        let subscribersList = JSON.parse(localStorage.getItem('nezzy_subscribers')) || [];
         let chatMessages = JSON.parse(localStorage.getItem('nezzy_chat_msgs')) || [
             {
                 id: "m_welcome",
@@ -1744,7 +1733,6 @@
                 text: "Assalomu alaykum! Umumiy chatimizga xush kelibsiz! Shirinliklar haqida fikr almashing 🎂✨"
             }
         ];
-
         let userPosts = JSON.parse(localStorage.getItem('nezzy_user_posts')) || [];
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1754,6 +1742,103 @@
         if (tgUser && tgUser.username) {
             const uInput = document.getElementById('reg-username');
             if (uInput) uInput.value = "@" + tgUser.username;
+        }
+
+        // Cloud Sync Helpers (Firebase Realtime Database)
+        function hasCloudDb() {
+            return typeof FIREBASE_DB_URL === "string" && FIREBASE_DB_URL.trim().startsWith("https://");
+        }
+
+        function cleanDbUrl() {
+            return FIREBASE_DB_URL.trim().replace(/\/+$/, "");
+        }
+
+        async function dbGet(path) {
+            if (!hasCloudDb()) return null;
+            try {
+                const res = await fetch(`${cleanDbUrl()}/${path}.json`);
+                if (!res.ok) return null;
+                return await res.json();
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function dbPut(path, data) {
+            if (!hasCloudDb()) return false;
+            try {
+                const res = await fetch(`${cleanDbUrl()}/${path}.json`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                return res.ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function pullAllFromCloud() {
+            if (!hasCloudDb()) return;
+            const [subsObj, msgsObj, postsObj] = await Promise.all([
+                dbGet("subscribers"),
+                dbGet("chat"),
+                dbGet("posts")
+            ]);
+
+            if (subsObj && typeof subsObj === "object") {
+                subscribersList = Object.values(subsObj);
+                localStorage.setItem('nezzy_subscribers', JSON.stringify(subscribersList));
+
+                if (userData) {
+                    const freshMe = subscribersList.find(s => s.id === userData.id || (s.username && userData.username && s.username.toLowerCase() === userData.username.toLowerCase()));
+                    if (freshMe) {
+                        userData = { ...userData, ...freshMe };
+                        localStorage.setItem('nezzy_user', JSON.stringify(userData));
+                    }
+                }
+            }
+
+            if (msgsObj && typeof msgsObj === "object") {
+                const arr = Object.values(msgsObj);
+                if (arr.length) {
+                    chatMessages = arr;
+                    localStorage.setItem('nezzy_chat_msgs', JSON.stringify(chatMessages));
+                }
+            }
+
+            if (postsObj && typeof postsObj === "object") {
+                const pArr = Object.values(postsObj);
+                userPosts = pArr.map(p => ({
+                    ...p,
+                    likedByMe: Array.isArray(p.likedUsers) && userData ? p.likedUsers.includes(userData.id) : !!p.likedByMe
+                }));
+                localStorage.setItem('nezzy_user_posts', JSON.stringify(userPosts));
+            }
+
+            if (userData) {
+                renderProfile();
+                renderChatMessages();
+                renderPostsFeed();
+                if (isUserAdmin(userData) && document.getElementById('admin-sub-list')) {
+                    showSubscribersInAdmin();
+                }
+            }
+        }
+
+        async function pushSubscriberToCloud(sub) {
+            if (!sub || !sub.id) return;
+            await dbPut(`subscribers/${sub.id}`, sub);
+        }
+
+        async function pushChatMessageToCloud(msg) {
+            if (!msg || !msg.id) return;
+            await dbPut(`chat/${msg.id}`, msg);
+        }
+
+        async function pushPostToCloud(post) {
+            if (!post || !post.id) return;
+            await dbPut(`posts/${post.id}`, post);
         }
 
         function isUserAdmin(u) {
@@ -1767,7 +1852,7 @@
             return isUserAdmin(u) || (Number(u.invites || 0) >= 20);
         }
 
-        function submitRegistration() {
+        async function submitRegistration() {
             const name = document.getElementById('reg-name').value.trim();
             let rawUsername = document.getElementById('reg-username').value.trim().replace(/^@/, "");
             const dob = document.getElementById('reg-dob').value.trim();
@@ -1796,22 +1881,27 @@
                 address: address,
                 points: 50,
                 invites: 0,
-                avatar: defaultAvatar
+                avatar: defaultAvatar,
+                joinedAt: new Date().toISOString()
             };
 
+            // Credit referral invite if refParam exists
             if (refParam) {
-                subscribersList = subscribersList.map(sub => {
-                    if (sub.id === refParam || sub.username === refParam) {
-                        const newInvites = Number(sub.invites || 0) + 1;
-                        const newPoints = Number(sub.points || 0) + 5;
-                        return { ...sub, invites: newInvites, points: newPoints };
-                    }
-                    return sub;
-                });
+                const inviterIdx = subscribersList.findIndex(sub =>
+                    sub.id === refParam || (sub.username && sub.username.toLowerCase() === refParam.toLowerCase())
+                );
+                if (inviterIdx >= 0) {
+                    subscribersList[inviterIdx].invites = Number(subscribersList[inviterIdx].invites || 0) + 1;
+                    subscribersList[inviterIdx].points = Number(subscribersList[inviterIdx].points || 0) + 5;
+                    await pushSubscriberToCloud(subscribersList[inviterIdx]);
+                }
             }
 
-            const existingIdx = subscribersList.findIndex(s => s.username.toLowerCase() === rawUsername.toLowerCase());
+            const existingIdx = subscribersList.findIndex(s => s.username && s.username.toLowerCase() === rawUsername.toLowerCase());
             if (existingIdx >= 0) {
+                userData.id = subscribersList[existingIdx].id;
+                userData.points = subscribersList[existingIdx].points ?? 50;
+                userData.invites = subscribersList[existingIdx].invites ?? 0;
                 subscribersList[existingIdx] = { ...subscribersList[existingIdx], ...userData };
             } else {
                 subscribersList.push(userData);
@@ -1819,12 +1909,15 @@
 
             localStorage.setItem('nezzy_user', JSON.stringify(userData));
             localStorage.setItem('nezzy_subscribers', JSON.stringify(subscribersList));
+            await pushSubscriberToCloud(userData);
+
             loadMainApp();
+            await pullAllFromCloud();
         }
 
-        function syncUserToSubscribers() {
+        async function syncUserToSubscribers() {
             if (!userData) return;
-            const idx = subscribersList.findIndex(s => s.id === userData.id || s.username === userData.username);
+            const idx = subscribersList.findIndex(s => s.id === userData.id || (s.username && userData.username && s.username.toLowerCase() === userData.username.toLowerCase()));
             if (idx >= 0) {
                 subscribersList[idx] = { ...subscribersList[idx], ...userData };
             } else {
@@ -1832,16 +1925,17 @@
             }
             localStorage.setItem('nezzy_user', JSON.stringify(userData));
             localStorage.setItem('nezzy_subscribers', JSON.stringify(subscribersList));
+            await pushSubscriberToCloud(userData);
         }
 
-        function editOwnUsername() {
+        async function editOwnUsername() {
             if (!userData) return;
             const nextU = prompt("Yangi Telegram username kiriting (masalan: shaxjan_2):", "@" + userData.username);
             if (!nextU) return;
             const clean = nextU.trim().replace(/^@/, "");
             if (!clean) return;
             userData.username = clean;
-            syncUserToSubscribers();
+            await syncUserToSubscribers();
             loadMainApp();
         }
 
@@ -1905,9 +1999,9 @@
         function handleProfileAvatarChange(input) {
             if (input.files && input.files[0] && userData) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = async function(e) {
                     userData.avatar = e.target.result;
-                    syncUserToSubscribers();
+                    await syncUserToSubscribers();
                     renderProfile();
                     renderChatMessages();
                     renderPostsFeed();
@@ -1918,21 +2012,25 @@
 
         if (userData) {
             loadMainApp();
+            pullAllFromCloud();
+            setInterval(pullAllFromCloud, 4000);
         }
 
-        function switchTab(tab) {
+        async function switchTab(tab) {
             document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('tab-' + tab).classList.add('active');
             document.getElementById('nav-' + tab).classList.add('active');
 
             if (tab === 'chat') {
-                markAnnouncementsViewed();
+                await pullAllFromCloud();
+                await markAnnouncementsViewed();
                 renderChatMessages();
+            } else if (tab === 'profile') {
+                await pullAllFromCloud();
             }
         }
 
-        // Open profile when clicking on any chat participant's avatar or name
         function openChatUserProfile(username, fallbackName, fallbackAvatar) {
             const cleanU = (username || "").replace(/^@/, "").toLowerCase();
             let target = subscribersList.find(s => (s.username || "").toLowerCase() === cleanU);
@@ -2005,42 +2103,46 @@
         }
 
         // Chat & Announcements
-        function markAnnouncementsViewed() {
+        async function markAnnouncementsViewed() {
             if (!userData) return;
             let changed = false;
-            chatMessages = chatMessages.map(m => {
+            for (let i = 0; i < chatMessages.length; i++) {
+                const m = chatMessages[i];
                 if (m.type === 'announcement') {
-                    m.viewedBy = m.viewedBy || [];
+                    m.viewedBy = Array.isArray(m.viewedBy) ? m.viewedBy : [];
                     if (!m.viewedBy.includes(userData.id)) {
                         m.viewedBy.push(userData.id);
                         changed = true;
+                        await pushChatMessageToCloud(m);
                     }
                 }
-                return m;
-            });
+            }
             if (changed) {
                 localStorage.setItem('nezzy_chat_msgs', JSON.stringify(chatMessages));
             }
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if (!text || !userData) return;
 
-            syncUserToSubscribers();
+            await syncUserToSubscribers();
 
-            chatMessages.push({
-                id: "m_" + Date.now(),
+            const newMsg = {
+                id: "m_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
                 type: "msg",
                 senderName: userData.name,
                 senderUsername: userData.username,
                 senderAvatar: userData.avatar || defaultAvatar,
                 isVip: isUserVip(userData),
                 text: text
-            });
+            };
 
+            chatMessages.push(newMsg);
             localStorage.setItem('nezzy_chat_msgs', JSON.stringify(chatMessages));
+            await pushChatMessageToCloud(newMsg);
+
             input.value = '';
             renderChatMessages();
         }
@@ -2052,7 +2154,7 @@
 
             chatMessages.forEach(m => {
                 if (m.type === 'announcement') {
-                    const viewCount = (m.viewedBy && m.viewedBy.length) ? m.viewedBy.length : 1;
+                    const viewCount = (Array.isArray(m.viewedBy) && m.viewedBy.length) ? m.viewedBy.length : 1;
                     const div = document.createElement('div');
                     div.className = 'msg-announcement';
                     div.innerHTML = `
@@ -2064,7 +2166,7 @@
                     `;
                     chatBox.appendChild(div);
                 } else {
-                    const isMine = userData && (m.senderUsername.toLowerCase() === userData.username.toLowerCase());
+                    const isMine = userData && (m.senderUsername && m.senderUsername.toLowerCase() === userData.username.toLowerCase());
                     const row = document.createElement('div');
                     row.className = `chat-msg-row ${isMine ? 'mine' : ''}`;
                     row.innerHTML = `
@@ -2103,12 +2205,12 @@
             }
         }
 
-        function createUserPost() {
+        async function createUserPost() {
             if (!userData) return;
             const caption = document.getElementById('post-caption-input').value.trim();
             if (!selectedPostPhotoData && !caption) return;
 
-            userPosts.unshift({
+            const newPost = {
                 id: "p_" + Date.now(),
                 authorId: userData.id,
                 authorName: userData.name,
@@ -2118,11 +2220,15 @@
                 image: selectedPostPhotoData || cakeLinks[0],
                 caption: caption,
                 likes: 0,
+                likedUsers: [],
                 likedByMe: false,
                 rewardClaimed: false
-            });
+            };
 
+            userPosts.unshift(newPost);
             localStorage.setItem('nezzy_user_posts', JSON.stringify(userPosts));
+            await pushPostToCloud(newPost);
+
             selectedPostPhotoData = "";
             document.getElementById('post-caption-input').value = "";
             const prev = document.getElementById('post-photo-preview');
@@ -2133,30 +2239,43 @@
             renderPostsFeed();
         }
 
-        function toggleLikePost(postId) {
+        async function toggleLikePost(postId) {
+            if (!userData) return;
             const idx = userPosts.findIndex(p => p.id === postId);
             if (idx < 0) return;
 
             const post = userPosts[idx];
-            if (!post.likedByMe) {
-                post.likes = (post.likes || 0) + 1;
+            post.likedUsers = Array.isArray(post.likedUsers) ? post.likedUsers : [];
+            const alreadyLiked = post.likedUsers.includes(userData.id);
+
+            if (!alreadyLiked) {
+                post.likedUsers.push(userData.id);
+                post.likes = post.likedUsers.length;
                 post.likedByMe = true;
 
                 if (post.likes >= 10 && !post.rewardClaimed) {
                     post.rewardClaimed = true;
-                    if (userData && post.authorUsername === userData.username) {
+                    if (post.authorUsername && post.authorUsername.toLowerCase() === userData.username.toLowerCase()) {
                         userData.points = Number(userData.points || 0) + 5;
-                        syncUserToSubscribers();
+                        await syncUserToSubscribers();
                         renderProfile();
                         alert("🎉 Tabriklaymiz! Postingiz 10 ta layk yig‘di va hisobingizga +5 ball qo‘shildi!");
+                    } else {
+                        const authorSubIdx = subscribersList.findIndex(s => s.username && s.username.toLowerCase() === post.authorUsername.toLowerCase());
+                        if (authorSubIdx >= 0) {
+                            subscribersList[authorSubIdx].points = Number(subscribersList[authorSubIdx].points || 0) + 5;
+                            await pushSubscriberToCloud(subscribersList[authorSubIdx]);
+                        }
                     }
                 }
             } else {
-                post.likes = Math.max(0, (post.likes || 0) - 1);
+                post.likedUsers = post.likedUsers.filter(id => id !== userData.id);
+                post.likes = post.likedUsers.length;
                 post.likedByMe = false;
             }
 
             localStorage.setItem('nezzy_user_posts', JSON.stringify(userPosts));
+            await pushPostToCloud(post);
             renderPostsFeed();
         }
 
@@ -2179,6 +2298,9 @@
             feed.innerHTML = "";
 
             userPosts.forEach(p => {
+                const isLiked = userData && Array.isArray(p.likedUsers) ? p.likedUsers.includes(userData.id) : !!p.likedByMe;
+                const likeCount = Array.isArray(p.likedUsers) ? p.likedUsers.length : (p.likes || 0);
+
                 const card = document.createElement('div');
                 card.className = 'ig-post-card';
                 card.innerHTML = `
@@ -2194,9 +2316,9 @@
                     <div class="ig-post-body">
                         <div class="ig-post-caption">${escapeHtml(p.caption)}</div>
                         <div class="ig-post-actions">
-                            <button class="ig-action-btn ${p.likedByMe ? 'liked' : ''}" onclick="toggleLikePost('${p.id}')">
-                                <i class="fa-${p.likedByMe ? 'solid' : 'regular'} fa-heart"></i>
-                                <span>Layk (${p.likes || 0})</span>
+                            <button class="ig-action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLikePost('${p.id}')">
+                                <i class="fa-${isLiked ? 'solid' : 'regular'} fa-heart"></i>
+                                <span>Layk (${likeCount})</span>
                             </button>
                             <button class="ig-action-btn" onclick="sharePostLink('${p.id}')">
                                 <i class="fa-solid fa-share-nodes"></i>
@@ -2204,7 +2326,7 @@
                             </button>
                         </div>
                         <div class="ig-goal-note">
-                            ${p.rewardClaimed ? '✅ 10 layk bajarildi (+5 ball berildi)' : `10 ta laykka ${Math.max(0, 10 - (p.likes || 0))} ta layk qoldi (+5 ball)`}
+                            ${p.rewardClaimed ? '✅ 10 layk bajarildi (+5 ball berildi)' : `10 ta laykka ${Math.max(0, 10 - likeCount)} ta layk qoldi (+5 ball)`}
                         </div>
                     </div>
                 `;
@@ -2225,7 +2347,7 @@
             }
         }
 
-        function publishAdminAnnouncement() {
+        async function publishAdminAnnouncement() {
             if (!isUserAdmin(userData)) return;
             const text = document.getElementById('admin-ann-text').value.trim();
             const linkUrl = document.getElementById('admin-ann-url').value.trim();
@@ -2233,7 +2355,7 @@
 
             if (!text && !finalImg) return;
 
-            chatMessages.push({
+            const annMsg = {
                 id: "ann_" + Date.now(),
                 type: "announcement",
                 senderName: userData.name,
@@ -2243,15 +2365,19 @@
                 image: finalImg,
                 text: text,
                 viewedBy: [userData.id]
-            });
+            };
 
+            chatMessages.push(annMsg);
             localStorage.setItem('nezzy_chat_msgs', JSON.stringify(chatMessages));
+            await pushChatMessageToCloud(annMsg);
+
             adminAnnouncementPhoto = "";
             closeModal();
             switchTab('chat');
         }
 
-        function showSubscribersInAdmin() {
+        async function showSubscribersInAdmin() {
+            await pullAllFromCloud();
             const box = document.getElementById('admin-sub-list');
             if (!box) return;
 
